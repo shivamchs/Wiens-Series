@@ -235,10 +235,10 @@
     ">Formulae</h3>
             <div id="formulae" style="    position: absolute;
         top: 258px;
-        padding: 12px;border: 2px solid black;        height: 700.8px;;
+        padding: 2px;border: 2px solid black;        height: 700.8px; width:330px;
 ">
 
-              <p>C1=Capacitor whose capacitance is to be measured,<br>
+              <!-- <p>C1=Capacitor whose capacitance is to be measured,<br>
 
                 R1
                 = A series resistance representing the loss in the capacitor C1
@@ -260,7 +260,58 @@
               <br>
 
               <p>Equating the real and imaginary terms, </p>
-              <img src="ws.png" alt="" height="350" width="300">
+              <img src="ws.png" alt="" height="350" width="300"> -->
+
+
+
+              <p>C1=Capacitor whose capacitance is to be measured,<br>
+
+                R1
+                = A series resistance representing the loss in the capacitor C1
+                ,<br>
+
+                C2
+                = A standard capacitance with series resistance of R2
+                ,<br>
+
+                R3
+                and R4
+                = Non-inductive resistances.</p>
+
+              <h5>At Balance: </h5>
+
+
+              <br>
+
+              <p>Equating the real and imaginary terms, </p>
+
+
+
+              <script type="math/asciimath"
+                id="MathJax-Element-8">(R_1+ 1/(jomegaC_1)) * R_4 = (R_2 + 1/(jomegaC_2))* R_3</script><br><br>
+
+              <script type="math/asciimath" id="MathJax-Element-10">R_1R_4 = R_2R_3</script>
+              <br><br>
+              <script type="math/asciimath" id="MathJax-Element-11">R_1 = (R_3R_2)/R_4</script>
+              <br><br>
+
+              <script type="math/asciimath"
+                id="MathJax-Element-12">(1/ (jomegaC_1)) * R_4 = (1/ (jomegaC_2)) * R_3</script><br>
+              <br>
+
+
+
+              <p>Measure capacitance value is</p>
+              <script type="math/asciimath" id="MathJax-Element-14">C_1 =(C_2R_4)/R_3</script>
+
+
+
+
+
+
+
+
+
               <!-- <script type="math/asciimath" id="MathJax-Element-8">(R_1 + 1/ (jomegaC_1)) * R_3 = (R_4 + 1/ (jomegaC_4)) * R_2</script><br><br>
 
 <script type="math/asciimath" id="MathJax-Element-10">R_1R_3 = R_2R_4</script>
@@ -370,7 +421,7 @@
 
 
 
-              <div id="formulae">
+              <!-- <div id="formulae">
 
 
                 <p>C1=Capacitor whose capacitance is to be measured,<br>
@@ -379,12 +430,12 @@
                   = A series resistance representing the loss in the capacitor C1
                   ,<br>
 
-                  C4
-                  = A standard capacitance with series resistance of R4
+                  C2
+                  = A standard capacitance with series resistance of R2
                   ,<br>
 
-                  R2
-                  and R3
+                  R3
+                  and R4
                   = Non-inductive resistances.</p>
 
                 <h5>At Balance: </h5>
@@ -397,24 +448,24 @@
 
 
                 <script type="math/asciimath"
-                  id="MathJax-Element-8">(R_1 + 1/ (jomegaC_1)) * R_3 = (R_4 + 1/ (jomegaC_4)) * R_2</script><br><br>
+                  id="MathJax-Element-8">(R_1 + 1/ (jomegaC_1)) * R_4 = (R_2 + 1/ (jomegaC_2)) * R_3</script><br><br>
 
-                <script type="math/asciimath" id="MathJax-Element-10">R_1R_3 = R_2R_4</script>
+                <script type="math/asciimath" id="MathJax-Element-10">R_1R_4 = R_2R_3</script>
                 <br><br>
-                <script type="math/asciimath" id="MathJax-Element-11">R_1 = (R_2R_4)/R_3</script>
+                <script type="math/asciimath" id="MathJax-Element-11">R_1 = (R_3R_2)/R_4</script>
                 <br><br>
 
                 <script type="math/asciimath"
-                  id="MathJax-Element-12">(1/ (jomegaC_1)) * R_3 = (1/ (jomegaC_4)) * R_2</script><br>
+                  id="MathJax-Element-12">(1/ (jomegaC_1)) * R_4 = (1/ (jomegaC_2)) * R_3</script><br>
                 <br>
 
 
 
                 <p>Measure capacitance value is</p>
-                <script type="math/asciimath" id="MathJax-Element-14">C_1 =(C_4R_3)/R_2</script>
+                <script type="math/asciimath" id="MathJax-Element-14">C_1 =(C_2R_4)/R_3</script>
 
 
-              </div>
+              </div> -->
 
 
               <a href="javascript:void(0)"
@@ -629,13 +680,12 @@
       const arr = [data1, data2, data3, data4, data5];
 
       console.log(data3);
-      var res = Math.max((c_ratio - (data2 / data1)) / 100, (c_ratio - (data4 / data3)) / 100);
-      res = res.toFixed(3);
-      document.getElementById("digi").innerHTML = res;
-
-      if (c_ratio == Math.floor(data4/ data3) && c_ratio == Math.floor( data2/ data1)) {
+      
+      if (Math.abs(c_ratio - Math.floor( data4/ data3))<0.1 && Math.abs(c_ratio - Math.floor(data2 / data1))<0.1) {
         // document.getElementById("light1").innerHTML+=`<h4>Bridge is Balanced</h4>
         // <h5>Equivalent Resistance:</h5><b> `+ frac(1)(r1+r3)+ ` </b>`;
+        document.getElementById("digi").innerHTML = 0;
+
         swal("Balanced Bridge");
         //console.log("x1111");
         for (var i = 1; i <= 5; i++) {
@@ -665,11 +715,29 @@
       }
 
 
-      else if (c_ratio == Math.floor( data4/ data3) || c_ratio == Math.floor(data2 / data1)) {
+      else if (Math.abs(c_ratio - Math.floor( data4/ data3))<0.1) {
+        var res=(c_ratio - Math.floor( data2/ data1));
+        document.getElementById("digi").innerHTML = res;
         var audio = new Audio('audio2_detector.mp3');
         audio.play();
         audio.volume = 0.2;
-        swal("Unbalanced");
+        swal("Unbalanced...Fix Ratio R2/R1");
+        audio.addEventListener("canplaythrough", function () {
+          setTimeout(function () {
+            audio.pause();
+          },
+            5000);
+        }, false);
+
+      }
+      else if(Math.abs(c_ratio - Math.floor(data2 / data1))<0.1){
+        var res=(c_ratio - Math.floor( data4/ data3));
+        document.getElementById("digi").innerHTML = res;
+
+        var audio = new Audio('audio2_detector.mp3');
+        audio.play();
+        audio.volume = 0.2;
+        swal("Unbalanced...Fix Ratio R4/R3");
         audio.addEventListener("canplaythrough", function () {
           setTimeout(function () {
             audio.pause();
@@ -680,6 +748,10 @@
       }
 
       else {
+        var res = Math.max((c_ratio - (data2 / data1)) / 100, (c_ratio - (data4 / data3)) / 100);
+      res = res.toFixed(3);
+      document.getElementById("digi").innerHTML = res;
+
         var audio = new Audio('audio1_detector.mp3');
         audio.play();
         audio.volume = 0.1;
@@ -938,7 +1010,7 @@
       const set_2 = new Set(arr1);
       console.log(arr_r);
       if (Tid.length != 10 || Sid.length != 10 || !setsAreEqual(set_1, set_2) || c_r != 4 || c_v != 1 || c_g != 1 || c_c != 2) {
-        alert("Wrong Connections");
+        swal("Wrong Connections");
       }
       else {
         var amp = {};
@@ -956,7 +1028,7 @@
         s_element.add(s);
         const r_pos = [], c_pos = [];
         if ((s[0] != 'r' && s[0] != 'c') || amp[s].length != 3 || (amp[s][0] != arr[7] && (amp[s][0][0] != 'c' && amp[s][0][0] != 'r'))) {
-          alert("Wrong Connection");
+          swal("Wrong Connection");
         }
         else {
           if (amp[s][0] == arr[7] && s[0] == 'r') {
@@ -972,7 +1044,7 @@
               s = amp[s][1];
 
             if ((s[0] != 'r' || amp[s].length != 2 || amp[s][1][0] != 'c') && (s[0] != 'c' || amp[s].length != 2 || amp[s][1][0] != 'r')) {
-              alert("Wrong Connection");
+              swal("Wrong Connection");
             }
             else {
 
@@ -990,7 +1062,7 @@
 
               s = amp[s][1];
               if ((s[0] != 'c' || amp[s].length != 2 || amp[s][1] != arr[7]) && (s[0] != 'r' || amp[s].length != 2 || amp[s][1] != arr[7])) {
-                alert("Wrong Connection");
+                swal("Wrong Connection");
               }
               else {
 
@@ -1007,7 +1079,7 @@
 
                 s = amp[arr[2]][1];
                 if ((s[0] != 'r' || amp[s].length != 3 || amp[s][2][0] != 'c') && (s[0] != 'c' || amp[s].length != 3 || amp[s][2][0] != 'r')) {
-                  alert("Wrong Connection");
+                  swal("Wrong Connection");
                 }
                 else {
 
@@ -1024,7 +1096,7 @@
 
                   s = amp[s][2];
                   if ((s[0] != 'c' || amp[s].length != 2 || amp[s][1] != arr[7]) && (s[0] != 'r' || amp[s].length != 2 || amp[s][1] != arr[7])) {
-                    alert("Wrong Connection");
+                    swal("Wrong Connection");
                   }
 
                   else {
@@ -1047,7 +1119,7 @@
                     else
                       s = amp[amp[s][0]][0];
                     if (s[0] != 'r' || amp[s].length != 2 || amp[s][0] != arr[7]) {
-                      alert("Wrong Connection");
+                      swal("Wrong Connection");
                     }
 
                     else {
@@ -1057,7 +1129,7 @@
                       r_pos[3] = [r_top, r_left];
 
 
-                      alert("Right Connections...Go Ahead!!");
+                      swal("Right Connections...Go Ahead!!");
 
                       c_ratio = Math.max(Math.floor((Math.random() * 5) + 1), 1);
                       console.log(c_ratio);
@@ -1134,7 +1206,7 @@
               s = amp[s][1];
 
             if (s[0] != 'r' || amp[s].length != 2 || amp[s][1] != arr[7]) {
-              alert("Wrong Connection");
+              swal("Wrong Connection");
             }
             else {
 
@@ -1146,7 +1218,7 @@
 
               s = amp[arr[2]][1];
               if (s[0] != 'r' || amp[s].length != 3 || amp[s][2] != arr[7]) {
-                alert("Wrong Connection");
+                swal("Wrong Connection");
               }
               else {
 
@@ -1164,7 +1236,7 @@
                   s = amp[s][1];
 
                 if ((s[0] != 'r' || amp[s].length != 2 || amp[s][0][0] != 'c') && (s[0] != 'c' || amp[s].length != 2 || amp[s][0][0] != 'r')) {
-                  alert("Wrong Connection");
+                  swal("Wrong Connection");
                 }
                 else {
 
@@ -1182,7 +1254,7 @@
 
                   s = amp[s][0];
                   if ((s[0] != 'c' || amp[s].length != 2 || amp[s][0] != arr[7]) && (s[0] != 'r' || amp[s].length != 2 || amp[s][0] != arr[7])) {
-                    alert("Wrong Connection");
+                    swal("Wrong Connection");
                   }
 
                   else {
@@ -1201,7 +1273,7 @@
 
                     s = amp[amp[arr[2]][0]][0];
                     if ((s[0] != 'c' || amp[s].length != 2 || amp[s][0] != arr[7]) && (s[0] != 'r' || amp[s].length != 2 || amp[s][0] != arr[7])) {
-                      alert("Wrong Connection");
+                      swal("Wrong Connection");
                     }
                     else {
 
@@ -1218,7 +1290,7 @@
 
 
 
-                      alert("Right Connections...Go Ahead!!");
+                      swal("Right Connections...Go Ahead!!");
 
                       var v_top = document.querySelector('#' + s_v + '').getBoundingClientRect().bottom-p_top;
                       var v_left = document.querySelector('#' + s_v + '').getBoundingClientRect().left - p_left+10;
