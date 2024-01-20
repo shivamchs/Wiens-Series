@@ -681,7 +681,7 @@
 
       console.log(data3);
       
-      if (Math.abs(c_ratio - Math.floor( data4/ data3))<0.1 && Math.abs(c_ratio - Math.floor(data2 / data1))<0.1) {
+      if (Math.abs(c_ratio - ( data4/ data3))<0.1 && Math.abs(c_ratio - (data2 / data1))<0.1) {
         // document.getElementById("light1").innerHTML+=`<h4>Bridge is Balanced</h4>
         // <h5>Equivalent Resistance:</h5><b> `+ frac(1)(r1+r3)+ ` </b>`;
         document.getElementById("digi").innerHTML = 0;
@@ -715,8 +715,8 @@
       }
 
 
-      else if (Math.abs(c_ratio - Math.floor( data4/ data3))<0.1) {
-        var res=(c_ratio - Math.floor( data2/ data1));
+      else if (Math.abs(c_ratio -  (data4/ data3))<0.1) {
+        var res=(( data2/ data1)-c_ratio);
         document.getElementById("digi").innerHTML = res;
         var audio = new Audio('audio2_detector.mp3');
         audio.play();
@@ -730,8 +730,8 @@
         }, false);
 
       }
-      else if(Math.abs(c_ratio - Math.floor(data2 / data1))<0.1){
-        var res=(c_ratio - Math.floor( data4/ data3));
+      else if(Math.abs(c_ratio - (data2 / data1))<0.1){
+        var res=(( data4/ data3)-c_ratio );
         document.getElementById("digi").innerHTML = res;
 
         var audio = new Audio('audio2_detector.mp3');
