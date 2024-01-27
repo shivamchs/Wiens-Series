@@ -380,8 +380,11 @@
                 Components.</ul>
               <ul><b>STEP 2:</b> Connect the resistances, capacitors and the battery as shown in the figure to form a Wein series bridge.</ul>
                 <ul><b>STEP 3:</b> Click on check circuit button to check the connections.</ul>
-              <ul><b>STEP 4:</b> Now Enter the values of R1, R2, R3, R4 and the value of voltage and choose appropriate value of frequency and click on the <b>"Submit"</b> button.</ul>
-              <ul><b>STEP 5:</b> Repeat the experiment until the bridge gets balanced.</ul>
+                <ul><b>STEP 4:</b> Now choose R1,R2 and R3 to a fixed value and vary the value of R4 only such that ratio (R4/R3) is nearly an integer between 1 to 5, and fix it to the value where the sound frequency changes from loud beap to pleasant sound.</ul>
+                <ul><b>STEP 5:</b> Hit the submit button and make the resistance arm ratio mentioned in the alert equal to the arm ratio not mentioned as per the balancing condition</ul>
+              <ul><b>STEP 6:</b> Now observe the reading of digital meter as it drops to zero hit<b>"Submit"</b> button.</ul>
+              <ul><b>STEP 7:</b> Repeat the experiment by changing the values of resistances and note atleast 3 readings.</ul>
+              <p>Note: If meter shows a negative value then alter the resistances such that corresponding ratio (R4/R3) or (R2/R1) increases, else try to decrease the ratio.</p>
               <hr>
               <a href="javascript:void(0)"
                 onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'"
@@ -501,10 +504,10 @@
 
 
                   <input type="range" min="1" max="1000" value="1" id="myRange1" step="0.05"
-                    onchange="data1.value=this.value; document.getElementById('r1_tag0').innerHTML='R1 = '+this.value+'&nbsp;Ω'"
+                    onchange="data1.value=this.value; document.getElementById('r1_tag0').innerHTML='R1 = '+this.value+'&nbsp;Ω'; meterupdate()"
                     style="width: 110px">&nbsp; <b>1 KΩ</b>&nbsp;&nbsp;
                   <input type="number" name="data1" id="data1" step="0.05"
-                    onchange="myRange1.value=this.value; document.getElementById('r1_tag0').innerHTML='R1 = '+this.value+'&nbsp;Ω'"
+                    onchange="myRange1.value=this.value; document.getElementById('r1_tag0').innerHTML='R1 = '+this.value+'&nbsp;Ω'; meterupdate()"
                     style="width: 60px; height:20px">
 
 
@@ -517,10 +520,10 @@
                 <div class="slidecontainer">
                   &nbsp;<b>R2 : 1Ω</b>&nbsp;
                   <input type="range" min="1" max="1000" value="1" id="myRange2" step="0.05"
-                    onchange="data2.value=this.value; document.getElementById('r1_tag1').innerHTML='R2 = '+this.value+'&nbsp;Ω'"
+                    onchange="data2.value=this.value; document.getElementById('r1_tag1').innerHTML='R2 = '+this.value+'&nbsp;Ω'; meterupdate()"
                     style="width: 110px">&nbsp;<b>1 KΩ</b>&nbsp;&nbsp;
                   <input type="number" name="data2" id="data2" step="0.05"
-                    onchange="myRange2.value=this.value; document.getElementById('r1_tag1').innerHTML='R2 = '+this.value+'&nbsp;Ω'"
+                    onchange="myRange2.value=this.value; document.getElementById('r1_tag1').innerHTML='R2 = '+this.value+'&nbsp;Ω'; meterupdate()"
                     style="width: 60px; height:20px">
                 </div>
                 <br>
@@ -528,10 +531,10 @@
                 <div class="slidecontainer">
                   &nbsp;<b>R3 : 1Ω</b>
                   <input type="range" min="1" max="1000" value="1" id="myRange" step="0.05"
-                    onchange="data6.value=this.value; document.getElementById('r1_tag2').innerHTML='R3 = '+this.value+'&nbsp;Ω'"
+                    onchange="data6.value=this.value; document.getElementById('r1_tag2').innerHTML='R3 = '+this.value+'&nbsp;Ω'; meterupdate()"
                     style="width: 110px">&nbsp; <b>1 KΩ</b>&nbsp;&nbsp;
                   <input type="number" name="data6" id="data6" step="0.05"
-                    onchange="myRange.value=this.value; document.getElementById('r1_tag2').innerHTML='R3 = '+this.value+'&nbsp;Ω'"
+                    onchange="myRange.value=this.value; document.getElementById('r1_tag2').innerHTML='R3 = '+this.value+'&nbsp;Ω'; meterupdate()"
                     style="width: 60px; height:20px">
                 </div>
                 <br>
@@ -540,15 +543,15 @@
                 <div class="slidecontainer">
                   &nbsp;<b>R4 : 1Ω</b>&nbsp;
                   <input type="range" min="1" max="1000" value="1" id="myRange3" step="0.05"
-                    onchange="data4.value=this.value; document.getElementById('r1_tag3').innerHTML='R4 = '+this.value+'&nbsp;Ω'"
+                    onchange="data4.value=this.value; document.getElementById('r1_tag3').innerHTML='R4 = '+this.value+'&nbsp;Ω'; meterupdate()"
                     style="width: 110px">&nbsp;<b>1 KΩ</b>&nbsp;&nbsp;
                   <input type="number" name="data4" id="data4" step="0.05"
-                    onchange="myRange3.value=this.value; document.getElementById('r1_tag3').innerHTML='R4 = '+this.value+'&nbsp;Ω'"
+                    onchange="myRange3.value=this.value; document.getElementById('r1_tag3').innerHTML='R4 = '+this.value+'&nbsp;Ω'; meterupdate()"
                     style="width: 60px; height:20px">
                 </div>
                 <br>
 
-                <p><b>V:</b>&nbsp;&nbsp;<input type="number" id="data5" style="width: 60px;">&nbsp;&nbsp;&nbsp;
+                <p><b>V:</b>&nbsp;&nbsp;<input type="number" id="data5" style="width: 60px;" onchange="document.getElementById('abcd').innerHTML='+ '+this.value+'v -'">&nbsp;&nbsp;&nbsp;
                   <b>f:</b>&nbsp;&nbsp; <input type="number" id="data7" style="width: 60px;">
                 </p>
                 <br>
@@ -633,12 +636,92 @@
 
 
 
+  const mydiv = document.getElementById('mydiv');
+  var data4 = 1; let c_ratio = 1;
+
+  
+  function meterupdate(){
+      var data1 = document.getElementById("data1").value;
+      var data2 = document.getElementById("data2").value;
+      var data4 = document.getElementById("data4").value;
+      var data5 = document.getElementById("data5").value;
+      var data3 = document.getElementById("data6").value;
+
+
+      if (data1 <= 0 || data2 <= 0 || data4 <= 0 || data5 <= 0 || data3<=0) {
+        return;
+      }
+
+      if (Math.abs(c_ratio - ( data4/ data3))<0.1 && Math.abs(c_ratio - (data2 / data1))<0.1) {
+        // document.getElementById("light1").innerHTML+=`<h4>Bridge is Balanced</h4>
+        // <h5>Equivalent Resistance:</h5><b> `+ frac(1)(r1+r3)+ ` </b>`;
+        document.getElementById("digi").innerHTML = 0;}
+
+      else if (Math.abs(c_ratio -  (data4/ data3))<0.1) {
+        var res=(( data2/ data1)-c_ratio)/100;
+        res=res.toFixed(3);
+        document.getElementById("digi").innerHTML = res;
+        var audio = new Audio('audio2_detector.mp3');
+        audio.play();
+        audio.volume = 0.2;
+        //swal("Unbalanced...Fix Ratio R2/R1");
+        audio.addEventListener("canplaythrough", function () {
+          setTimeout(function () {
+            audio.pause();
+          },
+            5000);
+        }, false);
+
+      }
+
+
+      else if(Math.abs(c_ratio - (data2 / data1))<0.1){
+        var res=(( data4/ data3)-c_ratio )/100;
+        res=res.toFixed(3);
+        document.getElementById("digi").innerHTML = res;
+
+        var audio = new Audio('audio2_detector.mp3');
+        audio.play();
+        audio.volume = 0.2;
+       // swal("Unbalanced...Fix Ratio R4/R3");
+        audio.addEventListener("canplaythrough", function () {
+          setTimeout(function () {
+            audio.pause();
+          },
+            5000);
+        }, false);
+
+      }
+
+
+      else {
+        var res = ((data4 / data3)-c_ratio) / 100;
+      res = res.toFixed(3);
+      document.getElementById("digi").innerHTML = res;
+
+        var audio = new Audio('audio1_detector.mp3');
+        audio.play();
+        audio.volume = 0.1;
+       // swal("Unbalanced");
+        audio.addEventListener("canplaythrough", function () {
+          setTimeout(function () {
+            audio.pause();
+          },
+            3000);
+        }, false);
+
+      }
 
 
 
-    const mydiv = document.getElementById('mydiv');
-    var data4 = 1; let c_ratio = 1;
 
+  }
+
+
+
+
+
+    
 
     function yourJsFunction() {
       //mydiv.style.display="none";
@@ -650,7 +733,7 @@
       var data3 = document.getElementById("data6").value;
 
 
-      if (data1 == "" || data2 == "" || data4 == "" || data5 == "") {
+      if (data1 == "" || data2 == "" || data4 == "" || data5 == "" || data3=="") {
         swal("Fill empty values");
 
         return;
@@ -661,7 +744,7 @@
 
 
 
-      if (data1 <= 0 || data2 <= 0 || data4 <= 0 || data5 <= 0) {
+      if (data1 <= 0 || data2 <= 0 || data4 <= 0 || data5 <= 0 || data3<=0) {
         swal("Invalid Values");
 
         return;
@@ -684,7 +767,7 @@
       if (Math.abs(c_ratio - ( data4/ data3))<0.1 && Math.abs(c_ratio - (data2 / data1))<0.1) {
         // document.getElementById("light1").innerHTML+=`<h4>Bridge is Balanced</h4>
         // <h5>Equivalent Resistance:</h5><b> `+ frac(1)(r1+r3)+ ` </b>`;
-        document.getElementById("digi").innerHTML = 0;
+       // document.getElementById("digi").innerHTML = 0;
 
         swal("Balanced Bridge");
         //console.log("x1111");
@@ -717,6 +800,8 @@
 
       else if (Math.abs(c_ratio -  (data4/ data3))<0.1) {
         var res=(( data2/ data1)-c_ratio);
+        res/=100;
+        res = res.toFixed(3);
         document.getElementById("digi").innerHTML = res;
         var audio = new Audio('audio2_detector.mp3');
         audio.play();
@@ -732,6 +817,8 @@
       }
       else if(Math.abs(c_ratio - (data2 / data1))<0.1){
         var res=(( data4/ data3)-c_ratio );
+        res/=100;
+        res = res.toFixed(3);
         document.getElementById("digi").innerHTML = res;
 
         var audio = new Audio('audio2_detector.mp3');
