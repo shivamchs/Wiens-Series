@@ -348,13 +348,14 @@
 
 
           <div id="digital-m" style="background-color:rgb(7, 7, 7); width: 120px; height: 50px; ;border:inset 6px lightgray;position:absolute;    top: 51px;
-      left: 1442px; ">
+      left: 1400px; ">
             <b>
               <p id="digi"
                 style="text-align: center; margin:5px; font-size:1.5rem; font-family:'Seven Segment'sans-serif;color:crimson;">
                 --.--</p>
             </b>
-          </div>
+          </div>&nbsp;&nbsp;<p style="font-size:1.5rem; font-family:'Seven Segment'sans-serif;color:crimson; position:absolute;  top: 51px;
+          left: 1530px;"><b>mA</b></p>
 
 
 
@@ -384,7 +385,7 @@
                 <ul><b>STEP 5:</b> Hit the submit button and make the resistance arm ratio mentioned in the alert equal to the arm ratio not mentioned as per the balancing condition</ul>
               <ul><b>STEP 6:</b> Now observe the reading of digital meter as it drops to zero hit<b>"Submit"</b> button.</ul>
               <ul><b>STEP 7:</b> Repeat the experiment by changing the values of resistances and note atleast 3 readings.</ul>
-              <p>Note: If meter shows a negative value then alter the resistances such that corresponding ratio (R4/R3) or (R2/R1) increases, else try to decrease the ratio.</p>
+              <!-- <p>Note: If meter shows a negative value then alter the resistances such that corresponding ratio (R4/R3) or (R2/R1) increases, else try to decrease the ratio.</p> -->
               <hr>
               <a href="javascript:void(0)"
                 onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'"
@@ -551,8 +552,8 @@
                 </div>
                 <br>
 
-                <p><b>V:</b>&nbsp;&nbsp;<input type="number" id="data5" style="width: 60px;" onchange="document.getElementById('abcd').innerHTML='+ '+this.value+'v -'">&nbsp;&nbsp;&nbsp;
-                  <b>f:</b>&nbsp;&nbsp; <input type="number" id="data7" style="width: 60px;">
+                <p><b>V:</b>&nbsp;&nbsp;<input type="number" id="data5" style="width: 60px;" onchange="document.getElementById('abcd').innerHTML='+ '+this.value+'v -'; meterupdate()" >&nbsp;<b>V</b>&nbsp;&nbsp;
+                  <b>f:&nbsp;&nbsp; <input readonly type="number" id="data7" style="width: 60px;" value="500">&nbsp;&nbsp;Hz</b>
                 </p>
                 <br>
 
@@ -646,13 +647,70 @@
       var data4 = document.getElementById("data4").value;
       var data5 = document.getElementById("data5").value;
       var data3 = document.getElementById("data6").value;
+      var omega=document.getElementById("data7").value;
 
 
       if (data1 <= 0 || data2 <= 0 || data4 <= 0 || data5 <= 0 || data3<=0) {
         return;
       }
 
-      if (Math.abs(c_ratio - ( data4/ data3))<0.1 && Math.abs(c_ratio - (data2 / data1))<0.1) {
+      var d1=(data1*data4)-(data2*data3);
+      var d2=((data4/c_ratio)-(data3))/(omega*1e-9);
+      var d3=((data1/c_ratio)-(data2))/(omega*1e-9);
+      d2=Math.max(d2,d3);
+
+      var res=Math.sqrt((d1*d1)+(d2*d2))/12000000;
+      res=res.toFixed(3);
+      console.log(res);
+      document.getElementById("digi").innerHTML = res;
+
+
+      if (Math.abs(c_ratio - ( data4/ data3))<0.1 && Math.abs(c_ratio - (data2 / data1))<0.1)
+      {
+        document.getElementById("digi").innerHTML = "0.00";
+      }
+
+      else if (Math.abs(c_ratio -  (data4/ data3))<0.1) {
+        var audio = new Audio('audio2_detector.mp3');
+        audio.play();
+        audio.volume = 0.2;
+        
+        audio.addEventListener("canplaythrough", function () {
+          setTimeout(function () {
+            audio.pause();
+          },
+            5000);
+        }, false);
+
+      }
+
+      else if(Math.abs(c_ratio - (data2 / data1))<0.1){
+        var audio = new Audio('audio2_detector.mp3');
+        audio.play();
+        audio.volume = 0.2;
+        audio.addEventListener("canplaythrough", function () {
+          setTimeout(function () {
+            audio.pause();
+          },
+            5000);
+        }, false);
+      }
+
+      else{
+        var audio = new Audio('audio1_detector.mp3');
+        audio.play();
+        audio.volume = 0.1;
+        
+        audio.addEventListener("canplaythrough", function () {
+          setTimeout(function () {
+            audio.pause();
+          },
+            3000);
+        }, false);
+      }
+
+
+      /*if (Math.abs(c_ratio - ( data4/ data3))<0.1 && Math.abs(c_ratio - (data2 / data1))<0.1) {
         // document.getElementById("light1").innerHTML+=`<h4>Bridge is Balanced</h4>
         // <h5>Equivalent Resistance:</h5><b> `+ frac(1)(r1+r3)+ ` </b>`;
         document.getElementById("digi").innerHTML = 0;}
@@ -710,7 +768,7 @@
             3000);
         }, false);
 
-      }
+      }*/
 
 
 
@@ -799,58 +857,28 @@
 
 
       else if (Math.abs(c_ratio -  (data4/ data3))<0.1) {
-        var res=(( data2/ data1)-c_ratio);
+       /* var res=(( data2/ data1)-c_ratio);
         res/=100;
         res = res.toFixed(3);
-        document.getElementById("digi").innerHTML = res;
-        var audio = new Audio('audio2_detector.mp3');
-        audio.play();
-        audio.volume = 0.2;
+        document.getElementById("digi").innerHTML = res;*/
+        meterupdate();
         swal("Unbalanced...Fix Ratio R2/R1");
-        audio.addEventListener("canplaythrough", function () {
-          setTimeout(function () {
-            audio.pause();
-          },
-            5000);
-        }, false);
-
       }
       else if(Math.abs(c_ratio - (data2 / data1))<0.1){
-        var res=(( data4/ data3)-c_ratio );
-        res/=100;
-        res = res.toFixed(3);
-        document.getElementById("digi").innerHTML = res;
+        meterupdate();
+        //document.getElementById("digi").innerHTML = res;
 
-        var audio = new Audio('audio2_detector.mp3');
-        audio.play();
-        audio.volume = 0.2;
+        
         swal("Unbalanced...Fix Ratio R4/R3");
-        audio.addEventListener("canplaythrough", function () {
-          setTimeout(function () {
-            audio.pause();
-          },
-            5000);
-        }, false);
+        
 
       }
 
       else {
-        var res = Math.max((c_ratio - (data2 / data1)) / 100, (c_ratio - (data4 / data3)) / 100);
-      res = res.toFixed(3);
-      document.getElementById("digi").innerHTML = res;
-
-        var audio = new Audio('audio1_detector.mp3');
-        audio.play();
-        audio.volume = 0.1;
+        //var res = Math.max((c_ratio - (data2 / data1)) / 100, (c_ratio - (data4 / data3)) / 100);
+        meterupdate();
         swal("Unbalanced");
-        audio.addEventListener("canplaythrough", function () {
-          setTimeout(function () {
-            audio.pause();
-          },
-            3000);
-        }, false);
-
-      }
+}
     }
 
 
@@ -1231,7 +1259,7 @@
                       var v_top = document.querySelector('#' + s_v + '').getBoundingClientRect().bottom-p_top;
                       var v_left = document.querySelector('#' + s_v + '').getBoundingClientRect().left - p_left+10;
 
-                      $("<div id='abcd' style = 'position: absolute;top:" + v_top + "px ; left:" + v_left + "px ;'><b>+  V,f  -</b></div>")
+                      $("<b><div id='abcd' style = 'position: absolute;top:" + v_top + "px ; left:" + v_left + "px ;'>+  V,f  -</div></b>")
                         .appendTo("#diagram");
 
 
@@ -1241,7 +1269,7 @@
                       }
 
 
-                      $("<b><div id='c1_tag0' style = 'position: absolute;top:" + c_pos[0][0] + "px ; left:" + c_pos[0][1] + "px ;'>C" + 1 + "</div></b>")
+                      $("<b><div id='c1_tag0' style = 'position: absolute;top:" + c_pos[0][0] + "px ; left:" + c_pos[0][1] + "px ;'>C" + 1 + " (Unknown)</div></b>")
                         .appendTo("#diagram");
                       $("<b><div id='c1_tag1' style = 'position: absolute;top:" + c_pos[1][0] + "px ; left:" + c_pos[1][1] + "px ;'>C" + 2 + "= 0.001uF</div></b>")
                         .appendTo("#diagram");
@@ -1382,7 +1410,7 @@
                       var v_top = document.querySelector('#' + s_v + '').getBoundingClientRect().bottom-p_top;
                       var v_left = document.querySelector('#' + s_v + '').getBoundingClientRect().left - p_left+10;
 
-                      $("<div id='abcd' style = 'position: absolute;top:" + v_top + "px ; left:" + v_left + "px ;'><b>+ V,f -</b></div>")
+                      $("<b><div id='abcd' style = 'position: absolute;top:" + v_top + "px ; left:" + v_left + "px ;'>+ V,f -</div></b>")
                         .appendTo("#diagram");
 
 
