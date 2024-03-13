@@ -493,7 +493,7 @@
               <br>
               <p>
               <h3 style="    position: absolute;
-          top: 20px;">C2 = 0.001 &#181;F</h3>
+          top: 20px;">C2 = 0.01 &#181;F</h3>
               </p><br>
               <form action="#" onsubmit="yourJsFunction();return false">
                 <div class="slidecontainer">
@@ -552,8 +552,18 @@
                 </div>
                 <br>
 
-                <p><b>V:</b>&nbsp;&nbsp;<input type="number" id="data5" style="width: 60px;" onchange="document.getElementById('abcd').innerHTML='+ '+this.value+'v -'; meterupdate()" >&nbsp;<b>V</b>&nbsp;&nbsp;
-                  <b>f:&nbsp;&nbsp; <input readonly type="number" id="data7" style="width: 60px;" value="500">&nbsp;&nbsp;Hz</b>
+                <p><b>V:</b>&nbsp;&nbsp;
+                  <select id="data5" style="width: 100px; height:40px;" onchange="document.getElementById('abcd').innerHTML='+ '+this.value+'v -'; meterupdate()" >&nbsp;<b>V</b>&nbsp;&nbsp;
+                  <!-- <input type="number" id="data5" style="width: 60px;" onchange="document.getElementById('abcd').innerHTML='+ '+this.value+'v -'; meterupdate()" >&nbsp;<b>V</b>&nbsp;&nbsp; -->
+                  <option value="s">select</option>
+                  <option value="110">110</option>
+                  <option value="220">220</option>
+                  <option value="230">230</option>
+                  
+                </select>
+                  
+                  
+                  <b>f:&nbsp;&nbsp; <input readonly type="number" id="data7" style="width: 60px; height:40px;" value="50">&nbsp;&nbsp;Hz</b>
                 </p>
                 <br>
 
@@ -647,10 +657,10 @@
       var data4 = document.getElementById("data4").value;
       var data5 = document.getElementById("data5").value;
       var data3 = document.getElementById("data6").value;
-      var omega=document.getElementById("data7").value;
+      var omega=500;
 
 
-      if (data1 <= 0 || data2 <= 0 || data4 <= 0 || data5 <= 0 || data3<=0) {
+      if (data1 <= 0 || data2 <= 0 || data4 <= 0 || data5 <= 0 || data3<=0 || data5=='s') {
         return;
       }
 
@@ -659,7 +669,10 @@
       var d3=((data1/c_ratio)-(data2))/(omega*1e-9);
       d2=Math.max(d2,d3);
 
-      var res=Math.sqrt((d1*d1)+(d2*d2))/12000000;
+      var rat=data5/220;
+
+      var res=Math.sqrt((d1*d1)+(d2*d2))/9000000;
+      res*=rat;
       res=res.toFixed(3);
       console.log(res);
       document.getElementById("digi").innerHTML = res;
@@ -810,7 +823,7 @@
       // Create a new table row for each input value
 
       var row = document.createElement("tr");
-      var cur = c_ratio * 0.001;
+      var cur = c_ratio * 0.01;
 
 
 
@@ -846,7 +859,7 @@
           document.getElementById("myTable").appendChild(row);
         }
   
-      cur=(data4/data3)*0.001;
+      cur=(data4/data3)*0.01;
       cur=cur.toFixed(4);
       var cell = document.createElement("td");
       cell.innerHTML = cur+"uF";
@@ -1262,6 +1275,8 @@
                       $("<b><div id='abcd' style = 'position: absolute;top:" + v_top + "px ; left:" + v_left + "px ;'>+  V,f  -</div></b>")
                         .appendTo("#diagram");
 
+                      $("<div style = 'position: absolute;top:" + (v_top-29)+ "px ; left:" + (v_left+150) + "px ;'><img src='ground_img.png'></div>").appendTo("#diagram");
+
 
                       for (var i = 0; i < 4; i++) {
                         $("<b><div id='r1_tag" + i + "' style = 'position: absolute;top:" + r_pos[i][0] + "px ; left:" + r_pos[i][1] + "px ;'>R" + (i + 1) + "</div></b>")
@@ -1271,7 +1286,7 @@
 
                       $("<b><div id='c1_tag0' style = 'position: absolute;top:" + c_pos[0][0] + "px ; left:" + c_pos[0][1] + "px ;'>C" + 1 + " (Unknown)</div></b>")
                         .appendTo("#diagram");
-                      $("<b><div id='c1_tag1' style = 'position: absolute;top:" + c_pos[1][0] + "px ; left:" + c_pos[1][1] + "px ;'>C" + 2 + "= 0.001uF</div></b>")
+                      $("<b><div id='c1_tag1' style = 'position: absolute;top:" + c_pos[1][0] + "px ; left:" + c_pos[1][1] + "px ;'>C" + 2 + "= 0.01uF</div></b>")
                         .appendTo("#diagram");
 
 
@@ -1412,6 +1427,11 @@
 
                       $("<b><div id='abcd' style = 'position: absolute;top:" + v_top + "px ; left:" + v_left + "px ;'>+ V,f -</div></b>")
                         .appendTo("#diagram");
+
+
+                      $("<div style = 'position: absolute;top:" + (v_top-29)+ "px ; left:" + (v_left+150) + "px ;'><img src='ground_img.png'></div>").appendTo("#diagram");
+
+
 
 
 
